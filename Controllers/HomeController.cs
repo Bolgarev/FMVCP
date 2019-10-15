@@ -3,28 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FMVCP.Models;
 
 namespace FMVCP.Controllers
 {
     public class HomeController : Controller
     {
+        BookContext db = new BookContext();
         public ActionResult Index()
         {
+            IEnumerable<Book> books = db.Books;
+
+            ViewBag.Books = books;
+
             return View();
         }
 
-        public ActionResult About()
+        [HttpGet]
+        public ActionResult Buy(int id)
         {
-            ViewBag.Message = "Your application description page.";
+            if (id <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
+            ViewBag.BookId = id;
 
             return View();
         }
-
-        public ActionResult Contact()
+        [HttpPost]
+        public string Buy(Purchase purchase)
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            purchase.Date = DateTime.Now;
+            db.Purchases.Add(purchase);
+            db.SaveChanges();
+            return "Спасибо," + purchase.Person + ", за покупку!";
         }
+
     }
 }
