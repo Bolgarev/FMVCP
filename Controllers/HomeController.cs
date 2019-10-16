@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using FMVCP.Models;
@@ -17,7 +19,15 @@ namespace FMVCP.Controllers
         {
             IEnumerable<Book> books = db.Books;
             ViewBag.Books = books;
+            Session["name"] = "Tom";
             return View();
+        }
+
+        public async Task<ActionResult> BookList()
+        {
+            IEnumerable<Book> books = await db.Books.ToListAsync();
+            ViewBag.Books = books;
+            return View("Index");
         }
 
         [HttpGet]
@@ -93,6 +103,35 @@ namespace FMVCP.Controllers
             const string fileType = "application/pdf";
             const string fileName = "doc1.pdf";
             return File(mas, fileType, fileName);
+        }
+
+        public string GetRequestData()
+        {
+            var browser = HttpContext.Request.Browser.Browser;
+            var userAgent = HttpContext.Request.UserAgent;
+            var url = HttpContext.Request.RawUrl;
+            var ip = HttpContext.Request.UserHostAddress;
+            var referrer = HttpContext.Request.UrlReferrer == null ? "" : HttpContext.Request.UrlReferrer.AbsoluteUri;
+            return "<p>Browser: " + browser + "</p><p>User-Agent: " + userAgent + "</p><p>Url запроса: " + url +
+                   "</p><p>Реферер: " + referrer + "</p><p>IP-адрес: " + ip + "</p>";
+        }
+
+        public string GetContextData()
+        {
+            HttpContext.Response.Write("<h1>Hello World</h1>");
+
+            var userAgent = HttpContext.Request.UserAgent;
+            var url = HttpContext.Request.RawUrl;
+            var ip = HttpContext.Request.UserHostAddress;
+            var referrer = HttpContext.Request.UrlReferrer == null ? "" : HttpContext.Request.UrlReferrer.AbsoluteUri;
+            return "<p>User-Agent: " + userAgent + "</p><p>Url запроса: " + url +
+                   "</p><p>Реферер: " + referrer + "</p><p>IP-адрес: " + ip + "</p>";
+        }
+
+        public string GetName()
+        {
+            var val = Session["name"];
+            return val.ToString();
         }
     }
 }
