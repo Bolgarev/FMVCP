@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using FMVCP.Models;
@@ -14,24 +16,21 @@ namespace FMVCP.Controllers
         public ActionResult Index()
         {
             IEnumerable<Book> books = db.Books;
-
             ViewBag.Books = books;
-
             return View();
         }
 
         [HttpGet]
         public ActionResult Buy(int id)
         {
-            if (id <= 0)
+            if (id > 3)
             {
-                throw new ArgumentOutOfRangeException(nameof(id));
+                return Redirect("Home/Index");
             }
-
             ViewBag.BookId = id;
-
             return View();
         }
+
         [HttpPost]
         public string Buy(Purchase purchase)
         {
@@ -56,6 +55,7 @@ namespace FMVCP.Controllers
             const string path = "../Images/image1.png";
             return new ImageResult(path);
         }
+
         public ViewResult HelloWorldByViewData()
         {
             ViewData["Head"] = "Привет мир!";
@@ -68,5 +68,31 @@ namespace FMVCP.Controllers
             return View("ViewByViewBag");
         }
 
+        public RedirectResult SomeMethod()
+        {
+            return Redirect("/Home/Index");
+        }
+
+        public ActionResult CheckAge(int age)
+        {
+            return age < 666 ? new HttpStatusCodeResult(HttpStatusCode.Forbidden) : HttpNotFound();
+        }
+
+        public FileResult GetFile()
+        {
+            var filePath = Server.MapPath("~/Files/doc1.pdf");
+            const string fileType = "application/pdf";
+            const string fileName = "doc1.pdf";
+            return File(filePath, fileType, fileName);
+        }
+
+        public FileResult GetBytes()
+        {
+            var path = Server.MapPath("~/Files/doc1.pdf");
+            var mas = System.IO.File.ReadAllBytes(path);
+            const string fileType = "application/pdf";
+            const string fileName = "doc1.pdf";
+            return File(mas, fileType, fileName);
+        }
     }
 }
