@@ -69,7 +69,7 @@ namespace FMVCP.Controllers
         public ViewResult HelloWorldByViewData()
         {
             ViewData["Head"] = "Привет мир!";
-            return View("SomeViewByViewData");
+            return View("ViewByViewData");
         }
 
         public ViewResult HelloWorldByViewBag()
@@ -78,7 +78,7 @@ namespace FMVCP.Controllers
             return View("ViewByViewBag");
         }
 
-        public RedirectResult SomeMethod()
+        public RedirectResult GoToMainPage()
         {
             return Redirect("/Home/Index");
         }
