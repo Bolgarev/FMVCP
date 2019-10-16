@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FMVCP.Models;
+using FMVCP.Util;
 
 namespace FMVCP.Controllers
 {
@@ -38,6 +39,33 @@ namespace FMVCP.Controllers
             db.Purchases.Add(purchase);
             db.SaveChanges();
             return "Спасибо," + purchase.Person + ", за покупку!";
+        }
+
+        private DateTime GetToday()
+        {
+            return DateTime.Today;
+        }
+
+        public ActionResult GetHtml()
+        {
+            return new HtmlResult("<h2>Привет мир!</h2>");
+        }
+
+        public ActionResult GetImage()
+        {
+            const string path = "../Images/image1.png";
+            return new ImageResult(path);
+        }
+        public ViewResult HelloWorldByViewData()
+        {
+            ViewData["Head"] = "Привет мир!";
+            return View("SomeViewByViewData");
+        }
+
+        public ViewResult HelloWorldByViewBag()
+        {
+            ViewBag.Head = "Мир привет";
+            return View("ViewByViewBag");
         }
 
     }
