@@ -184,8 +184,8 @@
     <Content Include="Views\Home\Buy.cshtml" />
     <Content Include="Views\BookShop\Index.cshtml" />
     <Content Include="Views\Home\ViewByViewBag.cshtml" />
-    <Content Include="Views\Home\SomeViewByViewData.cshtml" />
-    <Content Include="Views\Home\View1.cshtml" />
+    <Content Include="Views\Home\ViewByViewData.cshtml" />
+    <Content Include="Views\Home\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

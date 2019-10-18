@@ -20,7 +20,7 @@ namespace FMVCP.Controllers
             IEnumerable<Book> books = db.Books;
             ViewBag.Books = books;
             Session["name"] = "Tom";
-            return View();
+            return View(db.Books);
         }
 
         public async Task<ActionResult> BookList()
