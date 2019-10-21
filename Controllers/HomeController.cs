@@ -133,5 +133,11 @@ namespace FMVCP.Controllers
             var val = Session["name"];
             return val.ToString();
         }
+
+        public ActionResult Partial()
+        {
+            ViewBag.Message = "Частичное представление";
+            return PartialView();
+        }
     }
 }

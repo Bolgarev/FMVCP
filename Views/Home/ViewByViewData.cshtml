@@ -1,6 +1,18 @@
 ﻿@{
-    Layout = null;
+    Layout = "../Shared/_Layout.cshtml";
 }
+
+@{
+    var cities = new string[] { "Лондон", "Париж", "Москва" };
+}
+@{
+    var countries = new string[] { "Великобритания", "Франция", "Россия" };
+}
+
+@using FMVCP.Helpers
+@Html.CreateList(countries)
+@Html.CreateList(cities)
+@Html.CreateList(new string[] { "Лондон", "Париж", "Берлин" }, new { @class = "button", id = "citiesList" })
 
 <!DOCTYPE html>
 
